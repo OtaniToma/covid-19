@@ -2,13 +2,20 @@ import axios from 'axios';
 
 const url = 'https://covid19.mathdro.id/api';
 
-export const fetchData = async () => {
+export const fetchData = async (country) => {
+  let changeableUrl = url;
+
+  // 引数に国名が入っていれば、APIのURLの末尾にその国名を入れる
+  if (country) {
+    changeableUrl = `${url}/countries/${country}`;
+  }
+
   try {
-    const { data: { confirmed, recovered, deaths, lastUpdate } } = await axios.get(url);
+    const { data: { confirmed, recovered, deaths, lastUpdate } } = await axios.get(changeableUrl);
     return { confirmed, recovered, deaths, lastUpdate };
 
   } catch(error) {
-
+    console.log(error);
   }
 }
 
